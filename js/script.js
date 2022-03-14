@@ -57,7 +57,7 @@ repoList.addEventListener("click", function(e) {
 const githubRepoInfo = async function (repoName) {
     const result = await fetch(`https://api.github.com/repos/${username}/${repoName}`)
     const repoInfo = await result.json();
-    console.log(repoInfo);
+    //console.log(repoInfo);
     const fetchLanguages = await fetch(repoInfo.languages_url);
     const languageData = await fetchLanguages.json();
     //console.log(languageData);
@@ -66,19 +66,21 @@ const githubRepoInfo = async function (repoName) {
         languages.push(language);
     }
     //console.log(languages);
+    repoInfoDisplay(repoInfo, languages);
 };
 
 const repoInfoDisplay = function (repoInfo, languages) {
     repoData.innerHTML = "";
-    const div = repoData.createElement("div");
-    div.innerHTML = `<h3>Name: ${repoInfo.}</h3>
-    <p>Description: ${repoInfo.}</p>
-    <p>Default Branch: ${repoInfo.}</p>
-    <p>Languages: ${languages.join(", ")}</p>
-    <a class="visit" href="${repoInfo.}" target="_blank" rel="noreferrer noopener">View Repo on GitHub!</a>`;
+    repoData.classList.remove("hide");
+    repoSection.classList.add("hide");
+    const div = document.createElement("div");
+    div.innerHTML = 
+        `<h3>Name: ${repoInfo.name}</h3>
+        <p>Description: ${repoInfo.description}</p>
+        <p>Default Branch: ${repoInfo.default_branch}</p>
+        <p>Languages: ${languages.join(", ")}</p>
+        <a class="visit" href="${repoInfo.html_url}" target="_blank" rel="noreferrer noopener">View Repo on GitHub!</a>`;
     repoData.append(div);
-    repoData.classList.add("show");
-    repoSection.classList.remove("show");
 };
 
 
